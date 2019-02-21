@@ -2,7 +2,9 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
+
 import Header from './Header';
+import Signup from './SignUp';
 
 const { Content, Footer } = Layout;
 
@@ -16,7 +18,7 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={() => <div>Home</div>} />
               <Route path="/signin" component={() => <div>Sign In</div>} />
-              <Route path="/signup" component={() => <div>Sign Up</div>} />
+              <Route path="/signup" component={() => <Signup />} />
               <Route path="/profile" component={() => <div>Profile</div>} />
             </Switch>
           </div>
