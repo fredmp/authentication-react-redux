@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { withRouter } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
+import { signup } from '../actions';
 
 const formItemLayout = {
   labelCol: {
@@ -48,12 +52,11 @@ const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@
 const InputField = makeField(Input);
 
 class SignUp extends React.Component {
-  componentDidMount() {}
-
   onSubmit = formValues => {
-    const { reset } = this.props;
-    console.log(formValues);
+    const { history, reset, signup: signupAction } = this.props;
+    signupAction(formValues);
     reset();
+    history.push('/');
   };
 
   render() {
@@ -120,7 +123,14 @@ const validate = ({ email, password, confirmation }) => {
   return errors;
 };
 
-export default reduxForm({
-  form: 'signup',
-  validate,
-})(SignUp);
+export default compose(
+  withRouter,
+  connect(
+    state => ({ auth: state.auth }),
+    { signup },
+  ),
+  reduxForm({
+    form: 'signup',
+    validate,
+  }),
+)(SignUp);
