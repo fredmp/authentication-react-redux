@@ -19,6 +19,15 @@ const dispatchNotification = (
   }
 };
 
+const errorDescription = ({ response }) => {
+  const generalDescription = 'General error';
+  if (!response) return generalDescription;
+  if (response.status === 500) return 'Server error';
+  if (response.status === 401) return 'Email or password invalid';
+  if (response.data) return response.data.error || generalDescription;
+  return generalDescription;
+};
+
 export const notify = payload => dispatch => {
   dispatchNotification(dispatch, payload);
 };
@@ -31,10 +40,12 @@ export const signup = (formValues, callback) => async dispatch => {
     localStorage.setItem('token', token);
     callback();
   } catch (error) {
-    const { response } = error;
-    const description = response ? response.data.error : error.toString();
     dispatch({ type: AUTH_USER, payload: null });
-    dispatchNotification(dispatch, { description, title: 'Signup Error', type: 'error' });
+    dispatchNotification(dispatch, {
+      description: errorDescription(error),
+      title: 'Signup Error',
+      type: 'error',
+    });
   }
 };
 
@@ -46,17 +57,12 @@ export const signin = (formValues, callback) => async dispatch => {
     localStorage.setItem('token', token);
     callback();
   } catch (error) {
-    const { response } = error;
-    let description = 'General error';
-    if (!response) {
-      description = error.toString() || description;
-    } else if (response.status === 401) {
-      description = 'Email or password invalid';
-    } else if (response.data) {
-      description = response.data.error || description;
-    }
     dispatch({ type: AUTH_USER, payload: null });
-    dispatchNotification(dispatch, { description, title: 'Sign in Error', type: 'error' });
+    dispatchNotification(dispatch, {
+      description: errorDescription(error),
+      title: 'Sign in Error',
+      type: 'error',
+    });
   }
 };
 
