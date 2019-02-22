@@ -1,12 +1,14 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
+import { logout } from '../actions';
 
 const { Header } = Layout;
 
 // eslint-disable-next-line react/prop-types
-const AppHeader = ({ isSignedIn }) => {
+const AppHeader = ({ isSignedIn, logout: logoutAction }) => {
   const displayWhenSignedIn = isSignedIn ? {} : { display: 'none' };
   const displayWhenNotSignedIn = isSignedIn ? { display: 'none' } : {};
   return (
@@ -31,9 +33,17 @@ const AppHeader = ({ isSignedIn }) => {
         <Menu.Item key="4" style={displayWhenSignedIn}>
           <Link to="/profile">Profile</Link>
         </Menu.Item>
+        <Menu.Item key="5" style={displayWhenSignedIn}>
+          <a href="#" onClick={logoutAction}>
+            Logout
+          </a>
+        </Menu.Item>
       </Menu>
     </Header>
   );
 };
 
-export default connect(state => ({ isSignedIn: state.auth.isSignedIn }))(AppHeader);
+export default connect(
+  state => ({ isSignedIn: state.auth.isSignedIn }),
+  { logout },
+)(AppHeader);

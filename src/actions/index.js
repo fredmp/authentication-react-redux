@@ -37,3 +37,13 @@ export const signup = (formValues, callback) => async dispatch => {
     dispatchNotification(dispatch, { description, title: 'Signup Error', type: 'error' });
   }
 };
+
+export const logout = () => dispatch => {
+  localStorage.removeItem('token');
+  dispatch({ type: AUTH_USER, payload: null });
+  dispatchNotification(dispatch, {
+    description: 'You successfully signed out',
+    title: 'Sign out',
+    general: true,
+  });
+};
