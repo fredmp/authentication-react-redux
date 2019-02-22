@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import Header from './Header';
+import SignIn from './SignIn';
 import Signup from './SignUp';
 import Profile from './Profile';
 import Notification from './Notification';
@@ -21,7 +22,7 @@ const App = () => {
             <Notification general />
             <Switch>
               <Route exact path="/" component={() => <div>Home</div>} />
-              <Route path="/signin" component={() => <div>Sign In</div>} />
+              <Route path="/signin" component={() => <SignIn />} />
               <Route path="/signup" component={() => <Signup />} />
               <Route path="/profile" component={() => <Profile />} />
             </Switch>

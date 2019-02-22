@@ -38,6 +38,28 @@ export const signup = (formValues, callback) => async dispatch => {
   }
 };
 
+export const signin = (formValues, callback) => async dispatch => {
+  try {
+    const response = await Axios.post(`${baseURL}/signin`, formValues);
+    const token = response.headers.authorization;
+    dispatch({ type: AUTH_USER, payload: token });
+    localStorage.setItem('token', token);
+    callback();
+  } catch (error) {
+    const { response } = error;
+    let description = 'General error';
+    if (!response) {
+      description = error.toString() || description;
+    } else if (response.status === 401) {
+      description = 'Email or password invalid';
+    } else if (response.data) {
+      description = response.data.error || description;
+    }
+    dispatch({ type: AUTH_USER, payload: null });
+    dispatchNotification(dispatch, { description, title: 'Sign in Error', type: 'error' });
+  }
+};
+
 export const logout = () => dispatch => {
   localStorage.removeItem('token');
   dispatch({ type: AUTH_USER, payload: null });
