@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 
 import Header from './Header';
 import Signup from './SignUp';
+import Profile from './Profile';
 
 const { Content, Footer } = Layout;
 
@@ -19,7 +20,7 @@ const App = () => {
               <Route exact path="/" component={() => <div>Home</div>} />
               <Route path="/signin" component={() => <div>Sign In</div>} />
               <Route path="/signup" component={() => <Signup />} />
-              <Route path="/profile" component={() => <div>Profile</div>} />
+              <Route path="/profile" component={() => <Profile />} />
             </Switch>
           </div>
         </Content>
