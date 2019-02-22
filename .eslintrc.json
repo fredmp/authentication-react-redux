@@ -4,7 +4,8 @@
   "plugins": ["prettier", "react"],
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "localStorage": true
   },
   "rules": {
     "react/jsx-filename-extension": [

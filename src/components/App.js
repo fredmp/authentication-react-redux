@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import 'antd/dist/antd.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { Layout } from 'antd';
 import Header from './Header';
 import Signup from './SignUp';
 import Profile from './Profile';
+import Notification from './Notification';
 
 const { Content, Footer } = Layout;
 
@@ -16,6 +18,7 @@ const App = () => {
         <Header />
         <Content style={{ padding: '0 50px' }}>
           <div style={{ background: '#fff', padding: 24, minHeight: 280, height: '100%' }}>
+            <Notification general />
             <Switch>
               <Route exact path="/" component={() => <div>Home</div>} />
               <Route path="/signin" component={() => <div>Sign In</div>} />

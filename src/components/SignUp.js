@@ -4,8 +4,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
-import { Form, Input, Button, Alert } from 'antd';
-import { signup } from '../actions';
+import { Form, Input, Button } from 'antd';
+import { signup, notify } from '../actions';
+import Notification from './Notification';
 
 const formItemLayout = {
   labelCol: {
@@ -53,27 +54,25 @@ const InputField = makeField(Input);
 
 class SignUp extends React.Component {
   onSubmit = formValues => {
-    const { history, reset, signup: signupAction } = this.props;
+    const { history, reset, signup: signupAction, notify: notifyAction } = this.props;
     signupAction(formValues, () => {
       reset();
-      history.push('/');
+      notifyAction({
+        description: 'Signed up successfully',
+        title: 'Sign up',
+        type: 'success',
+        general: true,
+      });
+      history.push('/profile');
     });
   };
 
   render() {
-    const { handleSubmit, pristine, reset, submitting, auth } = this.props;
+    const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
-        {auth.error && (
-          <Alert
-            message="Error Message"
-            description={auth.error.toString()}
-            style={{ marginBottom: '20px' }}
-            type="error"
-            closable
-          />
-        )}
+        <Notification />
         <Field
           label="Email"
           name="email"
@@ -136,8 +135,8 @@ const validate = ({ email, password, confirmation }) => {
 export default compose(
   withRouter,
   connect(
-    state => ({ auth: state.auth }),
-    { signup },
+    null,
+    { signup, notify },
   ),
   reduxForm({
     form: 'signup',
